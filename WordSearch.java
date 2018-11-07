@@ -9,13 +9,18 @@ public class WordSearch{
     public WordSearch(int rows,int cols){
       for (int i=0;i<=rows;i++){
         for (int n=0;n<=cols;n++){
-          data[i][n]=0;
+          data[i][n]='_';
         }
       }
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
+      for (int i=0;i<=data.length;i++){
+        for (int n=0;n<=data[i].length;n++){
+          data[i][n]='_';
+        }
+      }
     }
 
     /**Each row is a new line, there is a space between each letter
