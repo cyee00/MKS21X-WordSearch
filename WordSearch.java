@@ -55,6 +55,9 @@ public class WordSearch{
      */
     public boolean addWordHorizontal(String word,int row, int col){
       boolean modify = true;
+      if (col+word.length()>data[row].length){
+        return false;
+      }
       for (int i=0;i<word.length();i++){
         if (word.charAt(i)==data[row][col+i]||data[row][col+i]=='_'){
           modify=true;
@@ -83,6 +86,9 @@ public class WordSearch{
      */
     public boolean addWordVertical(String word,int row, int col){
       boolean modify = true;
+      if (row+word.length()-2>data.length){
+        return false;
+      }
       for (int i=0;i<word.length();i++){
         if (word.charAt(i)==data[row+i][col]||data[row+i][col]=='_'){
           modify=true;
