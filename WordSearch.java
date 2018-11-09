@@ -1,5 +1,19 @@
+import java.util.*; //random, scanner, arraylist
+import java.io.*; //file, filenotfoundexception
 public class WordSearch{
     private char[][]data;
+
+    //the random seed used to produce this WordSearch
+    private int seed;
+
+    //a random Object to unify your random calls
+    private Random randgen;
+
+    //all words from a text file get added to wordsToAdd, indicating that they have not yet been added
+    private ArrayList<String>wordsToAdd;
+
+    //all words that were successfully added get moved into wordsAdded.
+    private ArrayList<String>wordsAdded;
 
     /**Initialize the grid to the size specified
      *and fill all of the positions with '_'
@@ -29,15 +43,15 @@ public class WordSearch{
      *separated by newlines.
      */
     public String toString(){
-      String ans = "";
+      String ans = "|";
       for (int i=0;i<data.length;i++){
         for (int n=0;n<data[i].length-1;n++){
           ans=ans+data[i][n]+" ";
         }
         ans+=data[i][data[i].length-1];
-        ans+="\n";
+        ans+="|\n|";
       }
-      ans=ans.substring(0,ans.length()-1);
+      ans=ans.substring(0,ans.length()-2);
       return ans;
     }
 
@@ -132,4 +146,49 @@ public class WordSearch{
       }
       return true;
     }
+//Update your wordSearch with the methods discussed in class:
+
+//Two Constructors:
+
+public WordSearch( int rows, int cols, String fileName){ //: choose a randSeed using the clock random\
+  rng = new Random(100);//seed of 100 is stored.
+    for(int i =  0; i < 5; i++ ){
+      System.out.println(rng.nextInt() % 1000);
+    }
+}
+//public WordSearch( int rows, int cols, String fileName, int randSeed) {}
+  //  Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
+
+//toString should print in the following format:
+//use '|' as left/right boundaries of the grid.
+//One long line of comma separated words after the string "Words: "
+/*
+|_ _ F _|
+|_ A I _|
+|D _ S _|
+|M E H _|
+Words: FAD, FISH, MEH
+
+//Two Methods
+private boolean addWord( int r, int c, String word, int rowIncrement, int colIncrement)
+    /*-when colIncrement and rowIncrement are both 0, return false.
+    -when you successfully add a word, move the word from wordsToAdd to wordsAdded, then return true.
+    -return false otherwise. */
+
+//private boolean addAllWords() {}
+      /*-Attempt to add all of the words from the wordsToAdd list using the following algorithm:
+    1-Choose a random word, and a random direction (rowIncrement/colIncrement)
+    2-Trying to add that word to different starting positions until:
+        --you successfully add the word,
+        --or you run out of positional tries*
+      Each positional try only changes the position of the start, not the direction or word.
+      *(Experiment with how many positional tries, maybe 100 is enough, maybe 1000.)
+    3-Repeat this process until you added all of the words, or you tried to add unsuccessfully too many times* in a row. (experiment how many is sufficient to add most of the words)
+
+    4-OPTIONAL
+    Optimize your addAllWords such that:
+    -You do not try to add words to positions that would not fit the word on the board.
+    -Use the rowIncrement/colIncrement to decide what the range of valid row/col should be.
+    e.g.
+    A five letter word that is meant to be added across to the right should not START in the last 4 columns of the board    */
 }
