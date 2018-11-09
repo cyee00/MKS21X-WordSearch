@@ -52,6 +52,7 @@ public class WordSearch{
         ans+="|\n|";
       }
       ans=ans.substring(0,ans.length()-2);
+      ans+="Words: ";
       return ans;
     }
 
