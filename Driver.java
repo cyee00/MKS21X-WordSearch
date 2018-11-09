@@ -21,12 +21,20 @@ public class Driver
     System.out.println("second column should not say yoyoyo because it doesn't fit");
     System.out.println(testCase.toString());
     System.out.println("\n\n\n");
-    testCase.addWordVertical("greetings", 3, 1);
+    testCase.addWordVertical("joe", 0, 4);
     System.out.println("should not print greetings because of capacity");
     System.out.println(testCase.toString());
     System.out.println("\n\n\n");
     System.out.println("should have yeh on third column");
     testCase.addWordVertical("yeh", 0, 2);
+    System.out.println(testCase.toString());
+    System.out.println("\n\n\n");
+    System.out.println("should clear board");
+    testCase.clear();
+    System.out.println(testCase.toString());
+    System.out.println("\n\n\n");
+    System.out.println("should have yeh diagonally across board");
+    testCase.addWordDiagonal("yeh", 3, 0);
     System.out.println(testCase.toString());
   }
 }
