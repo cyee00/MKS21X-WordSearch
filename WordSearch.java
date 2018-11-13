@@ -158,8 +158,8 @@ public class WordSearch{
 //Two Constructors:
 
 public WordSearch( int rows, int cols, String fileName){ //: choose a randSeed using the clock random\
-  randgen = new Random();//seed of 100 is stored.
-  seed = randgen.nextInt();
+  randgen = new Random()
+  seed = randg
 }
 //public WordSearch( int rows, int cols, String fileName, int randSeed) {}
   //  Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
