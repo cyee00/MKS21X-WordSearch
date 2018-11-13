@@ -1,0 +1,7 @@
+ace
+par
+bogey
+eagle
+birdie
+doglegleft
+doglegright
