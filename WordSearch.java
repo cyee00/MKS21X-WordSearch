@@ -4,7 +4,7 @@ public class WordSearch{
     private char[][]data;
 
     //the random seed used to produce this WordSearch
-    private int seed;
+    private int seed=-1;
 
     //a random Object to unify your random calls
     private Random randgen;
@@ -157,25 +157,42 @@ public class WordSearch{
 
 //Two Constructors:
 
-public WordSearch( int rows, int cols, String fileName){ //: choose a randSeed using the clock random\
-  randgen = new Random()
-  seed = randg
+public WordSearch( int rows, int cols, String fileName) throws FileNotFoundException{
+  seed = (int)(Math.random()*10000);
+  File f = new File(fileName);
+  Scanner in = new Scanner(f);
+  while(in.hasNext()){
+        String word = in.next();
+        wordsToAdd.add(word);
+  }
+  data = new char[rows][cols];
+  for (int i=0;i<rows;i++){
+    for (int n=0;n<cols;n++){
+      data[i][n]='_';
+    }
+  }
+  addAllWords();
 }
-//public WordSearch( int rows, int cols, String fileName, int randSeed) {}
+public WordSearch( int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
+  seed = randSeed;
+  File f = new File(fileName);
+  Scanner in = new Scanner(f);
+  while(in.hasNext()){
+        String word = in.next();
+        wordsToAdd.add(word);
+  }
+  data = new char[rows][cols];
+  for (int i=0;i<rows;i++){
+    for (int n=0;n<cols;n++){
+      data[i][n]='_';
+    }
+  }
+  addAllWords();
+}
   //  Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
 
-//toString should print in the following format:
-//use '|' as left/right boundaries of the grid.
-//One long line of comma separated words after the string "Words: "
-/*
-|_ _ F _|
-|_ A I _|
-|D _ S _|
-|M E H _|
-Words: FAD, FISH, MEH
-
 //Two Methods
-private boolean addWord( int r, int c, String word, int rowIncrement, int colIncrement)
+//private boolean addWord( int r, int c, String word, int rowIncrement, int colIncrement)
     /*-when colIncrement and rowIncrement are both 0, return false.
     -when you successfully add a word, move the word from wordsToAdd to wordsAdded, then return true.
     -return false otherwise. */
