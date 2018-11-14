@@ -52,13 +52,13 @@ public class WordSearch{
         ans+="|\n|";
       }
       ans=ans.substring(0,ans.length()-2);
-      ans+="\nWords: ";
+      ans+="\nWords: ";/*
       for (int i=0;i<wordsAdded.size()-1;i++){
         ans+=wordsAdded.get(i);
       }
       if (wordsAdded.size()>0){
         ans=ans+wordsAdded.get(wordsAdded.size()-1);
-      }
+      }*/
       return ans;
     }
 
@@ -171,7 +171,7 @@ public WordSearch( int rows, int cols, String fileName) throws FileNotFoundExcep
       data[i][n]='_';
     }
   }
-  addAllWords();
+  //addAllWords();
 }
 public WordSearch( int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
   seed = randSeed;
@@ -187,7 +187,7 @@ public WordSearch( int rows, int cols, String fileName, int randSeed) throws Fil
       data[i][n]='_';
     }
   }
-  addAllWords();
+  //addAllWords();
 }
   //  Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
 
