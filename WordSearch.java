@@ -52,113 +52,26 @@ public class WordSearch{
         ans+="|\n|";
       }
       ans=ans.substring(0,ans.length()-2);
-      ans+="\nWords: ";/*
+      ans+="\nWords: ";
       for (int i=0;i<wordsAdded.size()-1;i++){
-        ans+=wordsAdded.get(i);
+        ans=ans+wordsAdded.get(i)+", ";
       }
       if (wordsAdded.size()>0){
         ans=ans+wordsAdded.get(wordsAdded.size()-1);
-      }*/
+      }
+      ans=ans+" (seed: " + seed + ")";
       return ans;
     }
 
 
-    /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added from left to right, must fit on the WordGrid, and must
-     *have a corresponding letter to match any letters that it overlaps.
-     *
-     *@param word is any text to be added to the word grid.
-     *@param row is the vertical locaiton of where you want the word to start.
-     *@param col is the horizontal location of where you want the word to start.
-     *@return true when the word is added successfully. When the word doesn't fit,
-     * or there are overlapping letters that do not match, then false is returned
-     * and the board is NOT modified.
-     */
-    public boolean addWordHorizontal(String word,int row, int col){
-      boolean modify = true;
-      if (col+word.length()>data[row].length){
-        return false;
-      }
-      for (int i=0;i<word.length();i++){
-        if (word.charAt(i)==data[row][col+i]||data[row][col+i]=='_'){
-          modify=true;
-        } else {
-          return false;
-        }
-      }
-      if (modify){
-        for (int i=0;i<word.length();i++){
-          data[row][col+i]=word.charAt(i);
-        }
-      }
-      return true;
-    }
 
-   /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added from top to bottom, must fit on the WordGrid, and must
-     *have a corresponding letter to match any letters that it overlaps.
-     *
-     *@param word is any text to be added to the word grid.
-     *@param row is the vertical locaiton of where you want the word to start.
-     *@param col is the horizontal location of where you want the word to start.
-     *@return true when the word is added successfully. When the word doesn't fit,
-     *or there are overlapping letters that do not match, then false is returned.
-     *and the board is NOT modified.
-     */
-    public boolean addWordVertical(String word,int row, int col){
-      boolean modify = true;
-      if (row+word.length()-2>data.length){
-        return false;
-      }
-      for (int i=0;i<word.length();i++){
-        if (word.charAt(i)==data[row+i][col]||data[row+i][col]=='_'){
-          modify=true;
-        } else {
-          return false;
-        }
-      }
-      if (modify){
-        for (int i=0;i<word.length();i++){
-          data[row+i][col]=word.charAt(i);
-        }
-      }
-      return true;
-    }
-    /**Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added from top left to bottom right, must fit on the WordGrid,
-     *and must have a corresponding letter to match any letters that it overlaps.
-     *
-     *@param word is any text to be added to the word grid.
-     *@param row is the vertical locaiton of where you want the word to start.
-     *@param col is the horizontal location of where you want the word to start.
-     *@return true when the word is added successfully. When the word doesn't fit,
-     *or there are overlapping letters that do not match, then false is returned.
-     */
-    public boolean addWordDiagonal(String word,int row, int col){
-      boolean modify = true;
-      if (row+word.length()-2>data.length||col+word.length()>data[row].length){
-        return false;
-      }
-      for (int i=0;i<word.length();i++){
-        if (word.charAt(i)==data[row+i][col+i]||data[row+i][col+i]=='_'){
-          modify=true;
-        } else {
-          return false;
-        }
-      }
-      if (modify){
-        for (int i=0;i<word.length();i++){
-          data[row+i][col+i]=word.charAt(i);
-        }
-      }
-      return true;
-    }
 //Update your wordSearch with the methods discussed in class:
 
 //Two Constructors:
 
 public WordSearch( int rows, int cols, String fileName) throws FileNotFoundException{
-  seed = (int)(Math.random()*10000);
+  randgen = new Random();
+  seed = Math.abs(randgen.nextInt()%10000);
   File f = new File(fileName);
   Scanner in = new Scanner(f);
   while(in.hasNext()){
@@ -171,10 +84,10 @@ public WordSearch( int rows, int cols, String fileName) throws FileNotFoundExcep
       data[i][n]='_';
     }
   }
-  //addAllWords();
+  addAllWords();
 }
 public WordSearch( int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
-  seed = randSeed;
+  seed = Math.abs(randSeed%10000);
   File f = new File(fileName);
   Scanner in = new Scanner(f);
   while(in.hasNext()){
@@ -187,7 +100,7 @@ public WordSearch( int rows, int cols, String fileName, int randSeed) throws Fil
       data[i][n]='_';
     }
   }
-  //addAllWords();
+  addAllWords();
 }
   //  Both will read in the word text file, then run addAllWords(). Do not fill in random letters after.
 
@@ -243,7 +156,7 @@ private boolean addWord( int row, int col, String word, int rowIncrement, int co
 private boolean addAllWords() {
   int tries = 1000;
   while (tries>0){//stops trying to add any words when tries reaches 0, i.e. 999 tries
-    randgen = new Random();
+    randgen = new Random(seed);
     String word = wordsToAdd.get(randgen.nextInt()%wordsToAdd.size());
     int rowIncrement = randgen.nextInt()%2;
     int colIncrement = randgen.nextInt()%2;
@@ -275,4 +188,17 @@ private boolean addAllWords() {
     -Use the rowIncrement/colIncrement to decide what the range of valid row/col should be.
     e.g.
     A five letter word that is meant to be added across to the right should not START in the last 4 columns of the board    */
+    private void fill(){
+      randgen=new Random();
+      //char
+      for (int i=0;i<data.length;i++){
+        for (int n=0;i<data[i].length;n++){
+          if (data[i][n]=='_'){
+            //generate random letter here
+            //data[i][n]=
+          }
+        }
+      }
+    }
+    //public static
 }
