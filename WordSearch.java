@@ -190,15 +190,16 @@ private boolean addAllWords() {
     A five letter word that is meant to be added across to the right should not START in the last 4 columns of the board    */
     private void fill(){
       randgen=new Random();
-      //char
+      String alphabet="QWERTYUIOPASDFGHJKLZXCVBNM";
       for (int i=0;i<data.length;i++){
         for (int n=0;i<data[i].length;n++){
           if (data[i][n]=='_'){
-            //generate random letter here
-            //data[i][n]=
+            data[i][n]=alphabet.charAt(Math.abs(randgen.nextInt()%26));
           }
         }
       }
     }
-    //public static
+    public static void main(String[]args){
+      
+    }
 }
