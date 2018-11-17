@@ -200,6 +200,10 @@ private boolean addAllWords() {
       }
     }
     public static void main(String[]args){
-      
+      try{
+
+      }catch(IllegalArgumentException e){
+
+      }
     }
 }
