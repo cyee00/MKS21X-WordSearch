@@ -15,6 +15,8 @@ public class WordSearch{
     //all words that were successfully added get moved into wordsAdded.
     private ArrayList<String>wordsAdded;
 
+    private boolean key;
+
     /**Initialize the grid to the size specified
      *and fill all of the positions with '_'
      *@param row is the starting height of the WordSearch
@@ -44,6 +46,9 @@ public class WordSearch{
      */
     public String toString(){
       String ans = "|";
+      if (key){
+        fill();
+      }else{
       for (int i=0;i<data.length;i++){
         for (int n=0;n<data[i].length-1;n++){
           ans=ans+data[i][n]+" ";
@@ -62,6 +67,7 @@ public class WordSearch{
       ans=ans+" (seed: " + seed + ")";
       return ans;
     }
+    }
 
 
 
@@ -71,7 +77,7 @@ public class WordSearch{
 
 public WordSearch( int rows, int cols, String fileName) throws FileNotFoundException{
   if (rows<1||cols<1){
-    throw new IllegalArgumentException("rows and columns must both be positive");
+    throw new IllegalArgumentException("rows and columns must both be positive integers");
   }
   randgen = new Random();
   seed = Math.abs(randgen.nextInt()%10000);
@@ -91,10 +97,10 @@ public WordSearch( int rows, int cols, String fileName) throws FileNotFoundExcep
 }
 public WordSearch( int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
   if (rows<1||cols<1){
-    throw new IllegalArgumentException("rows and columns must both be positive");
+    throw new IllegalArgumentException("rows and columns must both be positive integers");
   }
-  if (!(randseed>=0&&randseed<=10000)){
-    throw new IllegalArgumentException("seed must be between 0 and 10000 inclusive");
+  if (!(randSeed>=0&&randSeed<=10000)){
+    throw new IllegalArgumentException("seed must be an int between 0 and 10000 inclusive");
   }else{
   seed = Math.abs(randSeed%10000);}
   File f = new File(fileName);
@@ -209,11 +215,17 @@ private boolean addAllWords() {
       }
     }
     public static void main(String[]args){
-      try{
-
-      }catch(IllegalArgumentException e){
-        e.printStackTrace();
-        System.out.println("Correct format: java Wordsearch int int file int boolean");
+      if (args.length<4){
+        //throw new 
       }
+      if (args.length<=4){
+        try{
+          WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
+        }catch(IllegalArgumentException e){
+          e.printStackTrace();
+          System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
+        }
+      }
+      System.out.println(ans);
     }
 }
