@@ -70,6 +70,9 @@ public class WordSearch{
 //Two Constructors:
 
 public WordSearch( int rows, int cols, String fileName) throws FileNotFoundException{
+  if (rows<1||cols<1){
+    throw new IllegalArgumentException("rows and columns must both be positive");
+  }
   randgen = new Random();
   seed = Math.abs(randgen.nextInt()%10000);
   File f = new File(fileName);
@@ -87,7 +90,13 @@ public WordSearch( int rows, int cols, String fileName) throws FileNotFoundExcep
   addAllWords();
 }
 public WordSearch( int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
-  seed = Math.abs(randSeed%10000);
+  if (rows<1||cols<1){
+    throw new IllegalArgumentException("rows and columns must both be positive");
+  }
+  if (!(randseed>=0&&randseed<=10000)){
+    throw new IllegalArgumentException("seed must be between 0 and 10000 inclusive");
+  }else{
+  seed = Math.abs(randSeed%10000);}
   File f = new File(fileName);
   Scanner in = new Scanner(f);
   while(in.hasNext()){
@@ -203,7 +212,8 @@ private boolean addAllWords() {
       try{
 
       }catch(IllegalArgumentException e){
-
+        e.printStackTrace();
+        System.out.println("Correct format: java Wordsearch int int file int boolean");
       }
     }
 }
