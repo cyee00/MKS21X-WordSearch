@@ -164,18 +164,18 @@ private boolean addWord( int row, int col, String word, int rowIncrement, int co
         */
 private boolean addAllWords() {
   int tries = 1000;
-  while (tries>0){//stops trying to add any words when tries reaches 0, i.e. 999 tries
+  for (int i=0;i<1000;i++){//stops trying to add any words when tries reaches 0, i.e. 999 tries
     randgen = new Random(seed);
     String word = wordsToAdd.get(Math.abs(randgen.nextInt()%wordsToAdd.size()));
     int rowIncrement = randgen.nextInt()%2;
     int colIncrement = randgen.nextInt()%2;
-    for (int i=0;i<1000;i++){ //run out of positional tries at 100, so move on to the next word
+    for (int n=0;n<1000;n++){ //run out of positional tries at 100, so move on to the next word
       int row=Math.abs(randgen.nextInt()%data.length);
       int col=Math.abs(randgen.nextInt()%data[0].length);
       if (addWord(row,col,word,rowIncrement,colIncrement)){
         wordsAdded.add(word);
         wordsToAdd.remove(word);
-        i=10000;//word added successfully, so move on to the next word
+        break;//word added successfully, so move on to the next word
       }
     }
     if (wordsToAdd.isEmpty()){//all words added, so stop
