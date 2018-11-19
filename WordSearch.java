@@ -46,9 +46,6 @@ public class WordSearch{
      */
     public String toString(){
       String ans = "|";
-      if (key){
-        fill();
-      }else{
       for (int i=0;i<data.length;i++){
         for (int n=0;n<data[i].length-1;n++){
           ans=ans+data[i][n]+" ";
@@ -67,7 +64,6 @@ public class WordSearch{
       ans=ans+" (seed: " + seed + ")";
       return ans;
     }
-    }
 
 
 
@@ -77,7 +73,7 @@ public class WordSearch{
 
 public WordSearch( int rows, int cols, String fileName) throws FileNotFoundException{
   if (rows<1||cols<1){
-    throw new IllegalArgumentException("rows and columns must both be positive integers");
+    throw new IllegalArgumentException();
   }
   randgen = new Random();
   seed = Math.abs(randgen.nextInt()%10000);
@@ -97,10 +93,10 @@ public WordSearch( int rows, int cols, String fileName) throws FileNotFoundExcep
 }
 public WordSearch( int rows, int cols, String fileName, int randSeed) throws FileNotFoundException{
   if (rows<1||cols<1){
-    throw new IllegalArgumentException("rows and columns must both be positive integers");
+    throw new IllegalArgumentException();
   }
   if (!(randSeed>=0&&randSeed<=10000)){
-    throw new IllegalArgumentException("seed must be an int between 0 and 10000 inclusive");
+    throw new IllegalArgumentException();
   }else{
   seed = Math.abs(randSeed%10000);}
   File f = new File(fileName);
@@ -218,19 +214,43 @@ private boolean addAllWords() {
     }
 
     public static void main(String[]args){
-      WordSearch wordsearch = new WordSearch();
+      WordSearch wordsearch;
+      boolean initialized = false;
       if (args.length<3){
-        throw new IllegalArgumentException();
-      }
-      if (args.length<=4){
-      }else{
+        System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
+        System.exit(0);
+      }else if(args.length<6){
         try{
-          WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
-        }catch(IllegalArgumentException e){
-          e.printStackTrace();
-          System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
+        if(args.length==3){
+          wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
+          initialized=true;
+        }else if(args.length==4){
+          if (args[4].equals("answers")){
+            wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
+            wordsearch.fill();
+            initialized=true;
+          }else{
+            wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2],Integer.parseInt(args[3]));
+            initialized=true;
+          }
+        }else if(args.length==5){
+          wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2],Integer.parseInt(args[3]));
+          wordsearch.fill();
+          initialized=true;
         }
+      }catch(IllegalArgumentException e){
+        System.out.println("rows and columns must both be positive integers and seed must be an int between 0 and 10000 inclusive");
+        wordsearch = new WordSearch(1,1);
+      }catch(FileNotFoundException e){
+        System.out.println("Please enter valid filename");
+        wordsearch = new WordSearch(1,1);
       }
-      System.out.println(wordsearch.toString());
+    }else{
+      System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
+      wordsearch = new WordSearch(1,1);
+    }
+      if (initialized){
+        System.out.println(wordsearch.toString());
+      }
     }
 }
