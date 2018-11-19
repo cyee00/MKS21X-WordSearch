@@ -7,15 +7,13 @@ public class WordSearch{
     private int seed=-1;
 
     //a random Object to unify your random calls
-    private Random randgen;
+    private Random randgen=new Random();
 
     //all words from a text file get added to wordsToAdd, indicating that they have not yet been added
-    private ArrayList<String>wordsToAdd;
+    private ArrayList<String>wordsToAdd = new ArrayList<String>();
 
     //all words that were successfully added get moved into wordsAdded.
-    private ArrayList<String>wordsAdded;
-
-    private boolean key;
+    private ArrayList<String>wordsAdded = new ArrayList<String>();
 
     /**Initialize the grid to the size specified
      *and fill all of the positions with '_'
@@ -123,10 +121,10 @@ private boolean addWord( int row, int col, String word, int rowIncrement, int co
     return false;
   }
   for (int i=0;i<word.length();i++){
-    if (word.charAt(i)==data[row+(rowIncrement*i)][col+(colIncrement*i)]||
-    data[row+(rowIncrement*i)][col+(colIncrement*i)]=='_'){
+    if (row+rowIncrement*i>=0&&col+colIncrement*i>=0&&row+rowIncrement*i<data.length&&col+colIncrement*i<data[0].length&&(word.charAt(i)==data[row+(rowIncrement*i)][col+(colIncrement*i)]||
+    data[row+(rowIncrement*i)][col+(colIncrement*i)]=='_')){
       modify = true;
-    }
+    }else{modify=false;}
   }
   if (modify){
     for (int i=0;i<word.length();i++){
@@ -168,16 +166,16 @@ private boolean addAllWords() {
   int tries = 1000;
   while (tries>0){//stops trying to add any words when tries reaches 0, i.e. 999 tries
     randgen = new Random(seed);
-    String word = wordsToAdd.get(randgen.nextInt()%wordsToAdd.size());
+    String word = wordsToAdd.get(Math.abs(randgen.nextInt()%wordsToAdd.size()));
     int rowIncrement = randgen.nextInt()%2;
     int colIncrement = randgen.nextInt()%2;
-    for (int i=0;i<100;i++){ //run out of positional tries at 100, so move on to the next word
+    for (int i=0;i<1000;i++){ //run out of positional tries at 100, so move on to the next word
       int row=Math.abs(randgen.nextInt()%data.length);
       int col=Math.abs(randgen.nextInt()%data[0].length);
       if (addWord(row,col,word,rowIncrement,colIncrement)){
         wordsAdded.add(word);
         wordsToAdd.remove(word);
-        i=100; //word added successfully, so move on to the next word
+        i=10000;//word added successfully, so move on to the next word
       }
     }
     if (wordsToAdd.isEmpty()){//all words added, so stop
@@ -214,42 +212,35 @@ private boolean addAllWords() {
     }
 
     public static void main(String[]args){
-      WordSearch wordsearch;
-      boolean initialized = false;
+      WordSearch wordsearch=null;
       if (args.length<3){
         System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
         System.exit(0);
-      }else if(args.length<6){
-        try{
+      }else try{
         if(args.length==3){
           wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
-          initialized=true;
         }else if(args.length==4){
-          if (args[4].equals("answers")){
+          if (args[3].equals("answers")){
             wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
             wordsearch.fill();
-            initialized=true;
           }else{
             wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2],Integer.parseInt(args[3]));
-            initialized=true;
           }
-        }else if(args.length==5){
+        }else if(args.length==5&&args[3].equals("answers")){
           wordsearch = new WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2],Integer.parseInt(args[3]));
           wordsearch.fill();
-          initialized=true;
+        }else{
+          System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
+          System.exit(0);
         }
       }catch(IllegalArgumentException e){
         System.out.println("rows and columns must both be positive integers and seed must be an int between 0 and 10000 inclusive");
-        wordsearch = new WordSearch(1,1);
+        System.exit(0);
       }catch(FileNotFoundException e){
         System.out.println("Please enter valid filename");
-        wordsearch = new WordSearch(1,1);
+        System.exit(0);
       }
-    }else{
-      System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
-      wordsearch = new WordSearch(1,1);
-    }
-      if (initialized){
+      if (wordsearch!=null){
         System.out.println(wordsearch.toString());
       }
     }
