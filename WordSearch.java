@@ -179,6 +179,8 @@ private boolean addAllWords() {
       int row=Math.abs(randgen.nextInt()%data.length);
       int col=Math.abs(randgen.nextInt()%data[0].length);
       if (addWord(row,col,word,rowIncrement,colIncrement)){
+        wordsAdded.add(word);
+        wordsToAdd.remove(word);
         i=100; //word added successfully, so move on to the next word
       }
     }
@@ -214,11 +216,14 @@ private boolean addAllWords() {
         }
       }
     }
+
     public static void main(String[]args){
-      if (args.length<4){
-        //throw new 
+      WordSearch wordsearch = new WordSearch();
+      if (args.length<3){
+        throw new IllegalArgumentException();
       }
       if (args.length<=4){
+      }else{
         try{
           WordSearch(Integer.parseInt(args[0]),Integer.parseInt(args[1]),args[2]);
         }catch(IllegalArgumentException e){
@@ -226,6 +231,6 @@ private boolean addAllWords() {
           System.out.println("Correct format: java Wordsearch int int file int(optional) boolean(optional)");
         }
       }
-      System.out.println(ans);
+      System.out.println(wordsearch.toString());
     }
 }
